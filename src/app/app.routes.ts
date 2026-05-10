@@ -1,0 +1,11 @@
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  { path: '', redirectTo: 'home',pathMatch: 'full'},
+  { path: 'login', loadComponent: () => import('./components/auth/login/login').then(m => m.Login)},
+  { path: 'home', loadComponent: () => import('./components/home/home').then(m => m.Home)},
+  { path: 'profile', loadComponent: () => import('./components/profile/profile').then(m => m.Profile)},
+  { path: 'create-post', loadComponent: () => import('./components/create-post/create-post.component').then(m => m.CreatePostComponent)},
+  { path: 'update-post/:id', loadComponent: () => import('./components/create-post/create-post.component').then(m => m.CreatePostComponent)},
+  { path: '**', redirectTo: 'home'}
+];
