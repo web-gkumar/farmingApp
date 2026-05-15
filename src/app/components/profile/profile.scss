@@ -1,6 +1,6 @@
 
 .profile-header {background:#2e7d32;border-radius:0;padding:0;}
-.header-content {display:flex;align-items:center;padding:16px;}
+.header-content {display:flex;align-items:center;padding:16px;color:#fff;}
 
 /* Avatar */
 .avatar {width:60px;height:60px;border-radius:50%;background:#ffc107;margin-right:16px;}
@@ -10,7 +10,6 @@
 
 ::ng-deep .mdc-tab__text-label {color:white !important;}
 .tab-content {background:white;min-height:500px;padding:16px;}
-mat-form-field {width:100% !important;}
 .card {margin:16px 0;max-width:400px;
   .mat-mdc-card-avatar {overflow:hidden;}
 }

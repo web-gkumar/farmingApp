@@ -4,5 +4,10 @@
     <a mat-list-item (click)="onMenuClick()"><mat-icon>accessibility_new</mat-icon><span>Buyers</span></a>
     <a mat-list-item (click)="onMenuClick()"><mat-icon>all_inclusive</mat-icon><span>All Crops</span></a>
     <a mat-list-item routerLink="/profile" (click)="onMenuClick()"><mat-icon>account_circle</mat-icon><span>Profile</span></a>
-    <a mat-list-item routerLink="/login" (click)="onMenuClick()"><mat-icon>logout</mat-icon><span>Logout</span></a>
+    @if(token){
+        <a mat-list-item (click)="onMenuClick(); logout()"><mat-icon>login</mat-icon><span>Logout</span></a>
+    }@else{
+    <a mat-list-item routerLink="/login" (click)="onMenuClick()"><mat-icon>login</mat-icon><span>Login</span></a>
+    }
+
 </mat-nav-list>

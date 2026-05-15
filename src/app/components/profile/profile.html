@@ -1,21 +1,20 @@
 <mat-card class="profile-header">
-    @if (!token){
     <div class="header-content">
         <div class="avatar"><img [src]="user?.picture"></div>
         <div class="user-info">
-            <h2>{{ user?.name}}</h2>
-            <p>{{ user?.phone }}</p>
-            <p class="email">{{ user?.email}}</p>
+            <h2>{{ user?.name || 'User Name' }}</h2>
+            <p>{{ user?.mobile || 'Phone Number' }}</p>
+            <p class="email">{{ user?.email || 'Email Address' }}</p>
         </div>
     </div>
-    }
 
 
     <mat-tab-group animationDuration="0ms">
         <mat-tab label="ORDERS">
             <div class="tab-content">
-                <button mat-flat-button color="primary" routerLink="/create-post"><mat-icon>add</mat-icon> Add Items</button>
-                @for (item of crops; track item) {
+                <button mat-flat-button color="primary" routerLink="/create-post"><mat-icon>add</mat-icon> Add
+                    Items</button>
+                @for (item of crops; track item._id) {
                 <mat-card class="card" appearance="outlined">
                     <mat-card-header>
                         <div mat-card-avatar><img mat-card-image [src]="user?.picture" alt="image"></div>
@@ -29,11 +28,9 @@
                         <p><strong>Perpose: For {{item.purpose}}</strong></p>
                     </mat-card-content>
                     <mat-card-actions>
-                        @if (!token){<button matButton>Phone: {{ user.mobile }}</button>}
-                        @if (token){
+                        <button matButton>Phone: {{ user.mobile }}</button>
                         <button matButton (click)="updateitem(item)">Edit</button>
                         <button matButton (click)="removeItem(item)">Delete</button>
-                        }
                     </mat-card-actions>
                 </mat-card>
                 }
@@ -49,9 +46,14 @@
         <mat-tab label="ABOUT">
             <div class="tab-content">
                 <form [formGroup]="profileForm">
+                    <mat-form-field appearance="outline"><mat-label>Enter Your Name</mat-label><input matInput placeholder="John Doe" formControlName="name"></mat-form-field>
+
+
                     <mat-form-field appearance="outline"><mat-label>Enter Your Mobile</mat-label><input matInput placeholder="+91 xxxxxxxxxx" formControlName="mobile"></mat-form-field>
+                    <mat-form-field appearance="outline"><mat-label>Enter Your email</mat-label><input matInput placeholder="you@example.com" formControlName="email"></mat-form-field>
+                    
                     <mat-form-field appearance="outline"><mat-label>Your Village</mat-label><input matInput formControlName="village"></mat-form-field>
-                    <mat-form-field appearance="outline"><mat-label>Your District</mat-label><input matInput formControlName="distic"></mat-form-field>
+                    <mat-form-field appearance="outline"><mat-label>Your District</mat-label><input matInput formControlName="district"></mat-form-field>
                     <mat-form-field appearance="outline"><mat-label>Your State</mat-label><input matInput formControlName="state"></mat-form-field>
                     <mat-form-field appearance="outline"><mat-label>Your Pincode</mat-label><input matInput formControlName="pincode"></mat-form-field>
                     <mat-form-field appearance="outline"><mat-label>Your Country</mat-label><input matInput formControlName="country"></mat-form-field>

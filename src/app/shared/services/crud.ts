@@ -12,19 +12,19 @@ export class Crud {
   constructor(private http: HttpClient, private router: Router) { }
 
 
+  getOrders() {
+    return this.http.get(`${this.apiUrl}/orders`);
+  }
+
   addOrder(formData: FormData) {
     return this.http.post(`${this.apiUrl}/orders`, formData);
   }
 
-  getOrders(userId: string) {
-    return this.http.get(`${this.apiUrl}/orders/${userId}`);
-  }
-
-   updateOrder(id:any, formData: FormData) {
+  updateOrder(id: any, formData: FormData) {
     return this.http.put(`${this.apiUrl}/orders/${id}`, formData);
   }
 
-  deleteItem(id:any){
+  deleteItem(id: any) {
     return this.http.delete(`${this.apiUrl}/orders/${id}`);
   }
 

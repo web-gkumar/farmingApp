@@ -1,0 +1,70 @@
+<section class="loginpage">
+    <h1 style="margin-bottom:10px;">Create Account</h1>
+    <p style="margin-bottom:15px;">Sign up to continue</p>
+
+    <form [formGroup]="signupForm">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Enter your name" formControlName="name">
+            @if(signupForm.get('name')?.hasError('required')){
+            <mat-error>Full name is required</mat-error>
+            }
+        </mat-form-field>
+
+
+        <!-- Mobile -->
+        <mat-form-field appearance="outline">
+            <mat-label>Mobile Number</mat-label>
+            <input matInput maxlength="10" placeholder="+91 XXXXXXXXXX" formControlName="mobile">
+            @if(signupForm.get('mobile')?.hasError('required')){
+            <mat-error>Mobile number is required</mat-error>
+            }
+            @if(signupForm.get('mobile')?.hasError('pattern')){
+            <mat-error>Enter valid mobile number</mat-error>
+            }
+        </mat-form-field>
+
+
+        <!-- Email -->
+        <mat-form-field appearance="outline">
+            <mat-label>Email Address</mat-label>
+            <input matInput placeholder="example@gmail.com" formControlName="email">
+            @if(signupForm.get('email')?.hasError('email')){
+            <mat-error>Invalid email address</mat-error>
+            }
+        </mat-form-field>
+
+
+        <!-- Password -->
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Enter password" formControlName="password">
+            <button mat-button matSuffix (click)="hidePassword = !hidePassword"><mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon></button>
+            @if(signupForm.get('password')?.hasError('required')){
+            <mat-error>Password is required</mat-error>
+            }
+            @if(signupForm.get('password')?.hasError('minlength')){
+            <mat-error>Minimum 6 characters required</mat-error>
+            }
+        </mat-form-field>
+
+
+        <!-- Confirm Password -->
+        <mat-form-field appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="Confirm password">
+            <button mat-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword"><mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon></button>
+        </mat-form-field>
+
+
+        <!-- Terms -->
+        <mat-checkbox>I agree to Terms & Conditions</mat-checkbox>
+        @if(signupForm.get('terms')?.invalid && signupForm.get('terms')?.touched){
+        <small>Please accept terms & conditions</small>
+        }
+
+        <button mat-raised-button color="primary" class="btn" (click)="onSubmit()">Sign Up</button>
+    </form>
+    <div class="login-link">Already have an account? <a routerLink="/login">Login</a></div>
+</section>

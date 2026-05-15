@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Crud } from '../../shared/services/crud';
 import { Auth } from '../../shared/services/auth';
 
@@ -15,7 +15,7 @@ import { Auth } from '../../shared/services/auth';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule, ReactiveFormsModule, RouterModule ],
+  imports: [MatTabsModule, MatCardModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,30 +26,29 @@ export class Profile implements OnInit {
 
   profileForm!: FormGroup;
   user: any = {};
-  token: string | null = null;
   crops: any[] = [];
 
-  constructor( private _auth: Auth, private _crudService: Crud, private fb: FormBuilder, private router: Router, private route: ActivatedRoute ) { }
+  constructor(private _auth: Auth, private _crudService: Crud, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadUserFromStorage();
+    this.loadUserFromStorage("profile");
     this.profileForm = this.fb.group({
-      mobile: [this.user?.mobile || '', Validators.required],
+      name: [this.user?.name || ''],
+      mobile: [this.user?.mobile || ''],
+      email: [this.user?.email || ''],
       village: [this.user?.village || ''],
-      distic: [this.user?.distic || ''],
+      district: [this.user?.district || ''],
       state: [this.user?.state || ''],
       pincode: [this.user?.pincode || ''],
       address: [this.user?.address || ''],
       country: [this.user?.country || 'India']
     });
-    this.loadOrders();
+      this.getOrders();
   }
 
-  loadUserFromStorage(): void {
-    const profile = localStorage.getItem('profile');
-    const token = localStorage.getItem('token');
+  loadUserFromStorage(key: string): void {
+    const profile = localStorage.getItem(key);
     this.user = profile ? JSON.parse(profile) : {};
-    this.token = token;
   }
 
   submitProfile(): void {
@@ -57,28 +56,27 @@ export class Profile implements OnInit {
       this.profileForm.markAllAsTouched();
       return;
     }
-
     const payload = { ...this.profileForm.value, mobile: String(this.profileForm.value.mobile), pincode: String(this.profileForm.value.pincode) };
     this._auth.updateProfile(payload).subscribe({
       next: (res: any) => {
         if (res.success) {
           this.user = res.user;
-          localStorage.setItem( 'profile', JSON.stringify(res.user));
+          localStorage.setItem('profile', JSON.stringify(res.user));
           alert('Profile updated successfully');
-          this.loadUserFromStorage();
+          this.loadUserFromStorage("profile");
         }
       },
-      error: (err) => {alert( err?.error?.message || 'Profile update failed' ); }});
+      error: (err) => { alert(err?.error?.message || 'Profile update failed'); }
+    });
   }
 
-  loadOrders(): void {
+  getOrders(): void {
     if (!this.user?._id) return;
-    this._crudService.getOrders(this.user._id).subscribe({
+    this._crudService.getOrders().subscribe({
       next: (res: any) => {
         if (res.success) {
           this.crops = res.data || [];
-          localStorage.setItem( 'Posted-data', JSON.stringify(this.crops));
-          this.loadcropsData()
+          localStorage.setItem('my-orders', JSON.stringify(res.data));
         }
       }, error: (err) => {
         console.error('Load Orders Error:', err);
@@ -86,26 +84,16 @@ export class Profile implements OnInit {
     });
   }
 
-   loadcropsData(): void {
-    const cropsData = localStorage.getItem('Posted-data');
-    this.crops = cropsData ? JSON.parse(cropsData) : [];
-    console.log('Loaded crops from localStorage:', this.crops);
-  }
 
   updateitem(c: any): void {
-    this.router.navigate(['../update-post', c._id], { relativeTo: this.route } );
+    this.router.navigate(['../update-post', c._id], { relativeTo: this.route });
   }
 
   removeItem(c: any): void {
-    const confirmDelete = confirm( 'Do you really want to delete this item?');
+    const confirmDelete = confirm('Do you really want to delete this item?');
     if (!confirmDelete) return;
-    this._crudService.deleteItem(c._id).subscribe({
-      next: () => {
-        this.loadOrders();
-      },
-      error: (err) => {
-        console.error('Delete Error:', err);
-      }
+    this._crudService.deleteItem(c._id).subscribe((res:any) => {
+      this.crops = res.data || [];
     });
   }
 

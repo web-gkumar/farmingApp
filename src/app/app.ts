@@ -18,17 +18,10 @@ export class App {
   protected readonly title = signal('myApp');
   opened = false;
   constructor() {
-    this.initGoogle();
+    
   }
 
-  async initGoogle() {
-    await GoogleAuth.initialize({
-      clientId: '394870904623-c2alhq89rj8r10r5402t5ksk72n440oi.apps.googleusercontent.com',
-      scopes: ['profile', 'email'],
-      grantOfflineAccess: true,
-    });
-
-  }
+  
 
   
 }

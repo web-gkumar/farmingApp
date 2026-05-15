@@ -1,11 +1,11 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {FloatLabelType, MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCardModule} from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { FloatLabelType, MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 import { Crud } from '../../shared/services/crud';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -25,7 +25,7 @@ export class CreatePostComponent implements OnInit {
   urlId: any;
 
   constructor(private fb: FormBuilder, private _crudService: Crud, private route: ActivatedRoute) {
-    
+
   }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class CreatePostComponent implements OnInit {
     this.urlId = this.route.snapshot.paramMap.get('id');
 
     if (this.urlId) {
-      const storedData = localStorage.getItem('Posted-data');
+      const storedData = localStorage.getItem('my-orders');
       const getData = storedData ? JSON.parse(storedData) : [];
       const selectedData = getData.find((item: any) => item._id === this.urlId);
       if (selectedData) {
@@ -85,11 +85,15 @@ export class CreatePostComponent implements OnInit {
 
   updateOrder() {
     if (this.orderForm.invalid) return;
-    this._crudService.updateOrder(this.urlId, this.orderForm.value).subscribe({
-      next: () => {
+    const formData = new FormData();
+    Object.keys(this.orderForm.value).forEach(key => {
+      formData.append(key, this.orderForm.value[key]);
+    });
+    this.files.forEach(f => { formData.append('files', f.file) });
+    this._crudService.updateOrder(this.urlId, formData).subscribe({
+      next: (res: any) => {
+        localStorage.setItem('my-orders', JSON.stringify(res.data));
         alert('Order Updated');
-        this.orderForm.reset();
-        this.files = [];
       }
     });
   }

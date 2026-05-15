@@ -10,24 +10,24 @@ import { environment } from '../../../environments/environment';
 export class Auth {
   private apiUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
-  handleGoogleResponse(response: any) {
-    const idToken = response.credential;
-    this.http.post(`${this.apiUrl}/google-login`, { idToken })
-      .subscribe({
-        next: (res: any) => {
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('profile', JSON.stringify(res.user));
-          alert('Login Success');
-          this.router.navigateByUrl('tabs/profile');
-        },
-        error: (err) => {
-          console.error(err);
-          alert('Backend Google Login Failed');
-        },
-      });
+  signup(data: any) {
+    return this.http.post(`${this.apiUrl}/register`, data);
   }
+  login(data: any) {
+    return this.http.post(`${this.apiUrl}/login`, data);
+  }
+  forgotPassword(data: any) {
+    return this.http.post(`${this.apiUrl}/forgot-password`, data);
+  }
+  resetPassword(data: any) {
+    return this.http.post(`${this.apiUrl}/reset-password`, data);
+  }
+
+
+
+
 
 
   get token(): string | null {
