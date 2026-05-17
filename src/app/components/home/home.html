@@ -1,1 +1,23 @@
-<p>home works!</p>
+<owl-carousel-o [options]="customOptions">
+    <ng-template carouselSlide><img src="/banner/banner.jpg"></ng-template>
+    <ng-template carouselSlide><img src="/banner/banner2.jpg"></ng-template>
+    <ng-template carouselSlide><img src="/banner/banner3.jpg"></ng-template>
+</owl-carousel-o>
+
+
+<section class="croplist">
+@for (item of crops; track item._id) {
+<mat-card appearance="outlined">
+    <mat-card-header>
+        <div mat-card-avatar><img mat-card-image src="/avatar.png" width="100%" height="100%" alt="image"></div>
+        <mat-card-title>{{ item.cropName | titlecase}} - <small>₹{{item.price}}</small></mat-card-title>
+        <mat-card-subtitle><small>Qty: {{item.quantity}} quantal</small></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p><small>Deliver date: {{ item.deliveryDate  | date:'dd/MMM/yyyy'}}</small></p>
+        <p><strong>Perpose: For {{item.purpose}}</strong></p>
+    </mat-card-content>
+    <mat-card-actions><button matButton>Phone:</button></mat-card-actions>
+</mat-card>
+}
+</section>

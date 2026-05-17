@@ -1,5 +1,7 @@
 
 @use '@angular/material' as mat;
+@use 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@use 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default' as owl-theme;
 
 :root {
   @include mat.toolbar-overrides((
@@ -34,3 +36,7 @@ body {color-scheme:light;background:var(--mat-sys-surface);color:var(--mat-sys-o
 mat-form-field {width:100% !important;}
 .p16 {padding:16px;}
 
+.owl-theme .owl-dots {margin-top:-30px;position:relative;margin-bottom:20px;
+    .owl-dot span {width:30px;height:5px;background:#115c39;}
+
+}
