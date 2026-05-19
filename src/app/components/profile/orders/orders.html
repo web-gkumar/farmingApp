@@ -1,0 +1,24 @@
+<section class="p16">
+    <button mat-flat-button color="primary" routerLink="/create-post"><mat-icon>add</mat-icon> Add Items</button>
+    @if (crops.length > 0) {
+    @for (item of crops; track item) {
+    <mat-card class="card my10" appearance="outlined">
+        <mat-card-header>
+            <div mat-card-avatar><img mat-card-image src="/avatar.png" width="100%" height="100%" alt="image"> </div>
+            <mat-card-title>{{ item?.cropName | titlecase}} - <small>₹{{item?.price}}</small></mat-card-title>
+            <mat-card-subtitle><small>Qty: {{item?.quantity}} quantal</small></mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p><small>Deliver date: {{ item?.deliveryDate | date:'dd/MMM/yyyy' }}</small></p>
+            <p><strong>Perpose: For {{item?.purpose}}</strong></p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button matButton>Phone: {{ item?.mobile }}</button>
+            <button matButton (click)="updateitem(item)">Edit</button>
+            <button matButton (click)="removeItem(item)">Delete</button>
+        </mat-card-actions>
+    </mat-card>
+    }
+    }
+</section>

@@ -61,38 +61,45 @@ export class CreatePostComponent implements OnInit {
 
   submitOrder() {
     if (this.orderForm.invalid) return;
+    const profile = JSON.parse(localStorage.getItem('profile') || '{}');
+    const mobile = {
+      'mobile': profile?.mobile
+    };
     const formData = new FormData();
-    formData.append('userId', this.user._id);
+    formData.append('mobile', this.orderForm.value.mobile || mobile.mobile);
     formData.append('purpose', this.orderForm.value.purpose);
     formData.append('cropName', this.orderForm.value.cropName);
     formData.append('price', this.orderForm.value.price);
     formData.append('quantity', this.orderForm.value.quantity);
     formData.append('deliveryDate', this.orderForm.value.deliveryDate);
-
     this.files.forEach(f => {
       formData.append('files', f.file);
     });
 
     this._crudService.addOrder(formData).subscribe({
-      next: () => {
+      next: (res: any) => {
         alert('Order Saved');
+        const oldOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+        oldOrders.unshift(res.data);
+        localStorage.setItem('orders', JSON.stringify(oldOrders));
         this.orderForm.reset();
         this.files = [];
       }
     });
   }
 
-
   updateOrder() {
     if (this.orderForm.invalid) return;
+    const profile = JSON.parse(localStorage.getItem('profile') || '{}');
+    const mobile = profile?.mobile;
     const formData = new FormData();
     Object.keys(this.orderForm.value).forEach(key => {
       formData.append(key, this.orderForm.value[key]);
     });
-    this.files.forEach(f => { formData.append('files', f.file) });
+    if (mobile) { formData.append('mobile', mobile); }
+    this.files.forEach(f => { formData.append('files', f.file); });
     this._crudService.updateOrder(this.urlId, formData).subscribe({
       next: (res: any) => {
-        localStorage.setItem('my-orders', JSON.stringify(res.data));
         alert('Order Updated');
       }
     });

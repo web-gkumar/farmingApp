@@ -1,0 +1,14 @@
+<section class="p16">
+<form [formGroup]="profileForm">
+    <mat-form-field appearance="outline"><mat-label>Enter Your Name</mat-label><input matInput placeholder="Your Name" formControlName="name"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Enter Your Mobile</mat-label><input matInput placeholder="+91 xxxxxxxxxx" formControlName="mobile"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Enter Your email</mat-label><input matInput placeholder="you@example.com" formControlName="email"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Your Village</mat-label><input matInput formControlName="village"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Your District</mat-label><input matInput formControlName="district"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Your State</mat-label><input matInput formControlName="state"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Your Pincode</mat-label><input matInput formControlName="pincode"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Your Country</mat-label><input matInput formControlName="country"></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Your Full Address</mat-label><textarea matInput formControlName="address"></textarea></mat-form-field>
+    <button matButton="filled" (click)="submitProfile()">Update Profile</button>
+</form>
+</section>

@@ -1,68 +1,16 @@
-<mat-card class="profile-header">
-    <div class="header-content">
-        <div class="avatar"><img src="/avatar.png" width="100%" height="100%" alt="Avatar"></div>
-        <div class="user-info">
-            <h2>{{ user?.name || 'User Name' }}</h2>
-            <p>{{ user?.mobile || 'Phone Number' }}</p>
-            <p class="email">{{ user?.email || 'Email Address' }}</p>
-        </div>
+<div class="header">
+    <div class="avatar"><img src="/avatar.png" width="100%" height="100%" alt="Avatar"></div>
+    <div class="user-info">
+        <h2>{{ user?.name || 'User Name' }}</h2>
+        <p>{{ user?.mobile || 'Phone Number' }}</p>
+        <p class="email">{{ user?.email || 'Email Address' }}</p>
     </div>
+</div>
+<nav class="tabs">
+    <a routerLink="orders" routerLinkActive="active">ORDERS</a>
+    <a routerLink="favorites" routerLinkActive="active">FAVORITE</a>
+    <a routerLink="about" routerLinkActive="active">ABOUT</a>
+</nav>
+<router-outlet></router-outlet>
 
 
-    <mat-tab-group animationDuration="0ms">
-        <mat-tab label="ORDERS">
-            <div class="tab-content">
-                <button mat-flat-button color="primary" routerLink="/create-post"><mat-icon>add</mat-icon> Add
-                    Items</button>
-                @for (item of crops; track item._id) {
-                <mat-card class="card" appearance="outlined">
-                    <mat-card-header>
-                        <div mat-card-avatar><img mat-card-image [src]="user?.picture" alt="image"></div>
-                        <mat-card-title>{{ item.cropName | titlecase}} -
-                            <small>₹{{item.price}}</small></mat-card-title>
-                        <mat-card-subtitle><small>Qty: {{item.quantity}} quantal</small></mat-card-subtitle>
-                    </mat-card-header>
-
-                    <mat-card-content>
-                        <p><small>Deliver date: {{ item.deliveryDate | date:'dd/MMM/yyyy' }}</small></p>
-                        <p><strong>Perpose: For {{item.purpose}}</strong></p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button matButton>Phone: {{ user.mobile }}</button>
-                        <button matButton (click)="updateitem(item)">Edit</button>
-                        <button matButton (click)="removeItem(item)">Delete</button>
-                    </mat-card-actions>
-                </mat-card>
-                }
-            </div>
-        </mat-tab>
-
-
-        <mat-tab label="FAVORITE">
-            <div class="tab-content">Comming Soon</div>
-        </mat-tab>
-
-
-        <mat-tab label="ABOUT">
-            <div class="tab-content">
-                <form [formGroup]="profileForm">
-                    <mat-form-field appearance="outline"><mat-label>Enter Your Name</mat-label><input matInput placeholder="John Doe" formControlName="name"></mat-form-field>
-
-
-                    <mat-form-field appearance="outline"><mat-label>Enter Your Mobile</mat-label><input matInput placeholder="+91 xxxxxxxxxx" formControlName="mobile"></mat-form-field>
-                    <mat-form-field appearance="outline"><mat-label>Enter Your email</mat-label><input matInput placeholder="you@example.com" formControlName="email"></mat-form-field>
-                    
-                    <mat-form-field appearance="outline"><mat-label>Your Village</mat-label><input matInput formControlName="village"></mat-form-field>
-                    <mat-form-field appearance="outline"><mat-label>Your District</mat-label><input matInput formControlName="district"></mat-form-field>
-                    <mat-form-field appearance="outline"><mat-label>Your State</mat-label><input matInput formControlName="state"></mat-form-field>
-                    <mat-form-field appearance="outline"><mat-label>Your Pincode</mat-label><input matInput formControlName="pincode"></mat-form-field>
-                    <mat-form-field appearance="outline"><mat-label>Your Country</mat-label><input matInput formControlName="country"></mat-form-field>
-                    <mat-form-field appearance="outline"><mat-label>Your Full Address</mat-label><textarea matInput formControlName="address"></textarea></mat-form-field>
-                    <button matButton="filled" (click)="submitProfile()">Update Profile</button>
-                </form>
-            </div>
-        </mat-tab>
-
-
-    </mat-tab-group>
-</mat-card>
