@@ -11,14 +11,17 @@ import { Auth } from '../../shared/services/auth';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
-export class Sidebar implements OnInit {
-  token: any;
+export class Sidebar {
+
   @Output() menuClick = new EventEmitter<void>();
 
-  constructor(private auth: Auth, private router: Router) { }
+  constructor(
+    private auth: Auth,
+    private router: Router
+  ) { }
 
-  ngOnInit() {
-    this.token = localStorage.getItem('token');
+  get token() {
+    return localStorage.getItem('token');
   }
 
   onMenuClick() {
@@ -26,7 +29,7 @@ export class Sidebar implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    this.auth.logout();
     this.router.navigate(['/login']);
   }
 

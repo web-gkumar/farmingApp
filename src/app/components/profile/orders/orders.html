@@ -1,7 +1,7 @@
 <section class="p16">
     <button mat-flat-button color="primary" routerLink="/create-post"><mat-icon>add</mat-icon> Add Items</button>
     @if (crops.length > 0) {
-    @for (item of crops; track item) {
+    @for (item of crops; track item._id) {
     <mat-card class="card my10" appearance="outlined">
         <mat-card-header>
             <div mat-card-avatar><img mat-card-image src="/avatar.png" width="100%" height="100%" alt="image"> </div>

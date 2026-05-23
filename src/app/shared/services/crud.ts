@@ -16,6 +16,10 @@ export class Crud {
     return this.http.get(`${this.apiUrl}/orders`);
   }
 
+  getOrderById(id: string) {
+    return this.http.get(`${this.apiUrl}/orders/${id}`);
+  }
+
   addOrder(formData: FormData) {
     return this.http.post(`${this.apiUrl}/orders`, formData);
   }
